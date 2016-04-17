@@ -29,7 +29,7 @@ def group_dates():
     groups=[]
     for key in years:
         groups.append(yeardict[key])
-        print len(yeardict[key])
+        #print len(yeardict[key])
     #print years
     return years,groups
 

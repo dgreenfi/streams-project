@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template
 from meetup_func import group_dates
+from flask import request, send_from_directory
 
 application = Flask(__name__)
 import json
@@ -37,7 +38,10 @@ def community():
     y,g= group_dates()
     return render_template('coretemp.html',events=json.dumps(ids),years=y,groups=g,page='community.html')
 
-
+@application.route('/bio')
+def info():
+    temp=request.args.get('template')
+    return render_template(temp)
 
 if __name__ == '__main__':
     application.run(debug=True)
