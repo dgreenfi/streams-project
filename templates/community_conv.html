@@ -1,0 +1,13 @@
+<h1>Top Articles Being Linked</h1>
+{% for link in links %}
+<a href="{{ link[0] }}">{{ link[1] }}</a><br>
+{% endfor %}
+
+<h1>Top Hashtags Being Used</h1>
+{% for tag in hashtags %}
+<a href="https://twitter.com/hashtag/{{ tag }}">{{ tag }}<br>
+{% endfor %}
+
+
+
+

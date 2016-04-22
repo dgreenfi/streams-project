@@ -1,1 +1,5 @@
-<h2>Online Community Discussion</h2>
+<h2>Online Community Discussion - Meet the People organizing </h2>
+
+{% for state in states %}
+<p>{{ state }}<a onclick=bio('/bios/biotemplate.html')>Key Meetup Group</a></p>
+{% endfor %}
