@@ -1,0 +1,1 @@
+scp -i ccclass.pem -r /Users/davidgreenfield/PycharmProjects/streams-project/ ec2-user@ec2-52-91-228-46.compute-1.amazonaws.com:~/
