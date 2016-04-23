@@ -1,13 +1,47 @@
 <h1>Top Articles Being Linked</h1>
 {% for link in links %}
-<a href="{{ link[0] }}">{{ link[1] }}</a><br>
+    <b>{{  ucounts[loop.index-1]}} Recent Mentions: </b><a href="{{ link[0] }}">{{ link[1] }}</a><br>
 {% endfor %}
 
 <h1>Top Hashtags Being Used</h1>
 {% for tag in hashtags %}
-<a href="https://twitter.com/hashtag/{{ tag }}">{{ tag }}<br>
+    <b>{{  hcounts[loop.index-1]}} Recent Mentions: </b><a href="https://twitter.com/hashtag/{{ tag }}">{{ tag }}</a><br>
 {% endfor %}
 
+<h1>Conversation Volume</h1>
+
+
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <div id="chart_div"></div>
+<p>1-min updates of 20min Volume Twitter Free Stream (approx 1%)</p>
+
+
+<script>
+    google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+
+function drawBasic() {
+      var counts = {{ tvol|tojson }}
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'X');
+      data.addColumn('number', 'Tweet Count');
+
+      data.addRows(counts);
+
+      var options = {
+        hAxis: {
+          title: 'Time'
+        },
+        vAxis: {
+          title: 'Tweet Count'
+        }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+</script>
 
 
 

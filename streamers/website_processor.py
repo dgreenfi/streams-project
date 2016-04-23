@@ -2,20 +2,29 @@ import redis
 from collections import Counter
 import urllib2
 import time
+import json
 REDIS_PORT=9999
 conn_top=redis.Redis(port=REDIS_PORT,db=4)
 conn_top_title=redis.Redis(port=REDIS_PORT,db=5)
 conn_hashtag=redis.Redis(db=2,port=REDIS_PORT)
 conn_hashtag_counts=redis.Redis(db=6,port=REDIS_PORT)
+conn_counts=redis.Redis(db=7,port=REDIS_PORT)
+#counts db will store type + array like "urls":[21,19,12,3,2,1]
 
 def main():
     while True:
         hashtags_calc()
         urls=get_links()
         titles_from_urls(urls)
-        time.sleep(120)
+        twitter_volume()
+        time.sleep(60)
 
 
+def twitter_volume():
+    conn=redis.Redis(db=0,port=REDIS_PORT)
+    keys=conn.keys()
+    conn_counts.lpush('volume',len(keys))
+    return
 
 def get_links():
     conn_link=redis.Redis(port=REDIS_PORT,db=1)
@@ -24,14 +33,20 @@ def get_links():
     counts=Counter(values)
     n=min(10,len(counts))
     urls=counts.most_common(n)
-    urls=[u[0]for u in urls]
-    for i,x in enumerate(urls):
+    turls=[u[0] for u in urls]
+    curls=[u[1] for u in urls]
+
+    for i,x in enumerate(turls):
+
         conn_top.set(i,x.replace('"',""))
-    return urls
+
+    conn_counts.set('urls',json.dumps(curls))
+    return turls
 
 def titles_from_urls(urls):
 
     titles=[]
+
     for i,url in enumerate(urls):
         url=url.replace('"',"")
         from urllib2 import urlopen
@@ -53,15 +68,19 @@ def hashtags_calc():
     counts=Counter(values)
     n=min(10,len(counts))
     counts=counts.most_common(n)
+    count_array=[]
+    hashtag_array=[n[0] for n in counts]
     for i,x in enumerate(counts):
-        conn_hashtag_counts.set(i,x[0].replace('"',""))
+        count_array.append(x[1])
+    conn_hashtag_counts.set('hashtags',json.dumps(hashtag_array))
+    conn_counts.set('hashtags',json.dumps(count_array))
     return counts
 
 if __name__!='main':
 
-    conn_hashtag_counts=redis.Redis(db=6,port=REDIS_PORT)
-    keys=conn_hashtag_counts.keys()
-    print keys
+
+    #keys=conn_counts.keys()
+    #print keys
     #values = conn_hashtag_counts.mget(keys)
     #print values
     main()

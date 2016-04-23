@@ -25,16 +25,14 @@ class StdOutListener(tweepy.StreamListener):
 
         if len(text)>50:
             if check>1 or True:
-
                 # Also, we convert UTF-8 to ASCII ignoring all bad characters sent by users
                 conn.setex(decoded['id'],json.dumps(decoded),1200)
                 for url in decoded['entities']['urls']:
                     conn_url.setex(decoded['id'],json.dumps(url['expanded_url']),1200)
                 for tag in decoded['entities']['hashtags']:
-                    if tag['text'].lower not in ['cannabis','marijuana','weed']:
-                        print tag
+                    if tag['text'].lower() not in ['cannabis','marijuana','weed']:
                         conn_hashtag.setex(decoded['id'],json.dumps(tag['text'].lower()),1200)
-                print "Archived"
+                        print "Archived"
                 return True
 
     def on_error(self, status):
@@ -48,7 +46,7 @@ def load_creds(credloc):
 
 if __name__ == '__main__':
     l = StdOutListener()
-    creds=load_creds('./cred/keys.txt')
+    creds=load_creds('../cred/keys.txt')
     auth = tweepy.OAuthHandler(creds['twitter_key'], creds['twitter_secret'])
     auth.set_access_token(creds['twitter_access_token'], creds['twitter_token_secret'])
 
