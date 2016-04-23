@@ -45,6 +45,7 @@ def community():
     y,g= group_dates()
     meetups=get_top_groups()
     leaders=get_group_leads()
+
     return render_template('coretemp.html',events=json.dumps(ids),years=y,groups=g,page='community.html',
                            states=states,meetups=meetups,leaders=leaders)
 
@@ -59,8 +60,11 @@ def community_conv():
     titles=get_titles()
     links=zip(urls,titles)
     hashtags=get_hashtags()
+    hcounts=get_hashtag_counts()
+    ucounts=get_url_counts()
+    tvol=get_twitter_vol()
     return render_template('coretemp.html',events=json.dumps(ids),years=y,groups=g,page='community_conv.html',links=links,
-                           hashtags=hashtags)
+                           hashtags=hashtags,hcounts=hcounts,ucounts=ucounts,tvol=tvol)
 
 
 @application.route('/bio')
@@ -83,11 +87,39 @@ def get_titles():
 
     return values
 
+def get_twitter_vol():
+    conn_twitter_num=redis.Redis(db=7,port=REDIS_PORT)
+    last10=conn_twitter_num.lrange('volume',0,50)
+    last10.reverse()
+    time=range(0, len(last10))
+    chartdata=[]
+    for x in range(0,len(last10)):
+        chartdata.append([time[x],int(last10[x])])
+
+    return chartdata
 def get_hashtags():
     conn_hashtag_counts=redis.Redis(db=6,port=REDIS_PORT)
-    keys=conn_hashtag_counts.keys()
-    values = conn_hashtag_counts.mget(keys)
-    return values
+    values = conn_hashtag_counts.get('hashtags')
+    array=json.loads(values)
+    array=[x.replace('"',"") for x in array]
+    return array
+
+def get_hashtag_counts():
+    conn_hashtag_num=redis.Redis(db=7,port=REDIS_PORT)
+    values = conn_hashtag_num.get('hashtags')
+    array=json.loads(values)
+    array=[x for x in array]
+    return array
+
+def get_url_counts():
+    conn_hashtag_num=redis.Redis(db=7,port=REDIS_PORT)
+    values = conn_hashtag_num.get('urls')
+    print values
+    array=json.loads(values)
+    array=[x for x in array]
+    return array
+
+
 
 def get_top_groups():
     groups=pickle.load(open('./data/topgroups.txt','r+'))
