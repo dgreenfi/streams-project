@@ -5,11 +5,6 @@ import json
 
 REDIS_PORT=9999
 
-# Authentication details. To  obtain these visit dev.twitter.com
-consumer_key = 'nWGEdfoaBt7d6wWhiAw5Tw'
-consumer_secret = 'qM4QfDPqG9JQp6n0fqTCMrj6LJjES6vu2IzqpZLc'
-access_token = '2284416938-JbD4F32m9xQPMxKoh6UikpCLoJm8F6xy8wDPS9P'
-access_token_secret = 'XvJZQWa6zz5vHcHkUcYBacQKZJE9pcxbpxUUgNo9rN4AG'
 
 conn=redis.Redis(db=0,port=REDIS_PORT)
 conn_url=redis.Redis(db=1,port=REDIS_PORT)
