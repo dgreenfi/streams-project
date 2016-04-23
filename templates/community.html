@@ -1,1 +1,22 @@
-<h2>Online Community Discussion</h2>
+<h2>Online Community Discussion - Meet the People organizing </h2>
+
+{% for state in states %}
+    <div>
+    <h3>{{state}}</h3>
+    <h4><a href="{{  meetups[state]['link']}}">{{ meetups[state]['name'] }}</a></h4>
+    <div>Members:{{ meetups[state]['members'] }}</div>
+    <div><a onclick='bio_change("{{ state|safe}}","{{  leaders[state]['organizer']['name']}}",
+            "{{  leaders[state]['organizer']['bio']}}",
+            "test")'>{{leaders[state]['organizer']['name']}}</a></div>
+    <div id="description"></div>
+    {% block description %}
+    {{ meetups[state]}}
+    {% endblock %}
+    </div>
+    <div class="article"><html>{{  meetups[state]['description']}}</html></div>
+
+
+
+{% endfor %}
+
+

@@ -11,16 +11,18 @@ groups=[]
 #find groups
 purl='https://graph.facebook.com/search?q=cannabis&type=page&limit=100'
 after=''
-for x in range(1,10):
+f=open('../data/facebookgroups.txt','w+')
+for x in range(1,2):
     r=requests.get(purl+'&'+access_token+after)
-    print r.text
     purl=r.json()['paging']['next']
 
-    print len(r.json()['data'])
 
-    print r.json()['paging'].keys()
+    dat= r.json()['data']
+    for page in dat[0:2]:
+        pdata=requests.get('https://graph.facebook.com/v2.6/'+page['id']+'/likes?'+access_token)
+        print pdata.json()
     groups.append(r.json()['data'])
-print groups
+#print groups
 quit()
 
 endpoint='/v2.4/8062627951/events'

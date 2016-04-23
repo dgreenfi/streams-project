@@ -7,6 +7,7 @@
      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/static/panescripts.js"></script>
     <script>
         gps={{groups|tojson|safe}}
         years={{years|tojson|safe}}
@@ -36,36 +37,33 @@
     {% include "navbar.html" %}
 </head>
 <body>
+
     <div class="row">
                   <div class="col-md-8">
                       <div class="article">
                       {% include page%}
                   </div>
                       </div>
-                    <div class="col-md-4">
-                        <h1></h1>
-                        <script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&q=/m/06qst_&tz=Etc/GMT%2B4&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=500&h=330"></script>
-                </div>
+                    <div class="col-md-4" id="primarypane">
+                        <h1 id="primarypane-title"></h1>
+                        </div>
     </div>
-    <div class="row">
+<div class="row">
         <div class="col-md-8"></div>
         <div class="article">  </div>
-        <div class="col-md-4">
-            <h2 id="mapyear" align="center">Meetup Groups:   2006</h2>
-            <div class="map_container" id="map_cont">
-                <div class="map-canvas" id="map">;
-                    <script src="/static/mapanimation.js"></script>
-
-                </div>
-            </div>
-            <button onclick="clearMarkers()">Reset</button>
+        <div class="col-md-4" id="sidepane">
+            {% if side %}
+            {% include side %}
+            {% endif %}
         </div>
     </div>
     <div class="row">
         <div id="messageboard"></div>
     </div>
 </body>
- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl4eZEnTIa4efm8jSsWARkdBpJ67dEJaU&signed_in=true&libraries=geometry&callback=initMap&l"></script>
-     <script src="/static/websocketprocess.js"></script>
+<script>
+    var extension = document.URL.split('/').pop();
+    if (extension=='community'){
+    bioinit()};</script>
 
 </html>
