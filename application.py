@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 from meetup_func import group_dates
 from flask import request, send_from_directory
+import pickle
 import redis
 application = Flask(__name__)
 import json
@@ -36,12 +37,16 @@ def projection():
 
 @application.route('/community')
 def community():
-    states=['OH']
+
+    states=['AZ','AK','MA','MI','MO','NV','OH','CA','MA']
     f=open('groupids.txt')
     ids=f.readlines()
     ids=[i.replace('\n','') for i in ids]
     y,g= group_dates()
-    return render_template('coretemp.html',events=json.dumps(ids),years=y,groups=g,page='community.html',states=states)
+    meetups=get_top_groups()
+    leaders=get_group_leads()
+    return render_template('coretemp.html',events=json.dumps(ids),years=y,groups=g,page='community.html',
+                           states=states,meetups=meetups,leaders=leaders)
 
 
 @application.route('/communityconv')
@@ -83,6 +88,14 @@ def get_hashtags():
     keys=conn_hashtag_counts.keys()
     values = conn_hashtag_counts.mget(keys)
     return values
+
+def get_top_groups():
+    groups=pickle.load(open('./data/topgroups.txt','r+'))
+    return groups
+
+def get_group_leads():
+    leads=pickle.load(open('./data/topleaders.txt','r+'))
+    return leads
 
 if __name__ == '__main__':
     application.run(debug=True)

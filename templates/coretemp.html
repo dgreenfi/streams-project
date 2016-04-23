@@ -37,6 +37,7 @@
     {% include "navbar.html" %}
 </head>
 <body>
+
     <div class="row">
                   <div class="col-md-8">
                       <div class="article">
@@ -44,7 +45,7 @@
                   </div>
                       </div>
                     <div class="col-md-4" id="primarypane">
-                        <h1></h1>
+                        <h1 id="primarypane-title"></h1>
                         </div>
     </div>
 <div class="row">
@@ -60,7 +61,9 @@
         <div id="messageboard"></div>
     </div>
 </body>
- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl4eZEnTIa4efm8jSsWARkdBpJ67dEJaU&signed_in=true&libraries=geometry&callback=initMap&l"></script>
-
+<script>
+    var extension = document.URL.split('/').pop();
+    if (extension=='community'){
+    bioinit()};</script>
 
 </html>
