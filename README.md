@@ -1,8 +1,35 @@
-# streams-project
+# Instructions for Infosite and Data Gathering
 
-# Instructions for starting
+## Instructions for starting infosite dependencies
 
-redis-server --port 9999
-python twitter_stream.py
-python website_processor.py
+### Update Batch Data
+
+####Gather information from Meetup API
+python grouplist.py
+
+####Generate static files on top leaders in online communities
+python topleaders.py
+
+### Deploy to AWS EC2 Instance
+#### Copy all files in folder (requires keyfile)
+scp -i {keyfile} -r {yourpath}/streams-project/ ec2-user@ec2-52-91-228-46.compute-1.amazonaws.com:~/
+
+
+### Activate Services on EC2 Server
+#### run from foot base
+Setup Redis Server used for front end in the background
+redis-server --port 9999 --daemonize yes
+
+#### run from /cred folder
+Connect to Twitter and start saving data to redis
+nohup python ../streamers/twitter_stream.py &
+
+Start calculating aggregates from Twitter data
+nohup python ../streamers/website_processor.py &
+
+#### run from application folder
+nohup python application.py &
+
+Site will take 20 minutes from startup to accumulate rolling data for Twitter statistics
+
 
