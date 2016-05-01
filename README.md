@@ -33,3 +33,18 @@ nohup python application.py &
 Site will take 20 minutes from startup to accumulate rolling data for Twitter statistics
 
 
+## After these commands are run you should be able to navigate to the public url root
+http://52.91.228.46:5000/
+
+You should see an app that looks like below:
+![alt text][screenshot]
+
+[screenshot]: https://s3.amazonaws.com/dg2815/screenshot_app.png
+
+
+
+## Overview of site content
+###
+
+
+
