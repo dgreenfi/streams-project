@@ -6,13 +6,17 @@ topleaders={}
 topgroups={}
 
 for group in groups:
+    print group
+    if 'business' in group['description'].lower() or 'legal' in group['description'].lower():
+        if ('polyamory' not in group['description'].lower() and 'psychedelic' not in group['description'].lower()):
+            if group['state'] not in topgroups.keys():
+                group['state']
+                topgroups[group['state']]=group
+            else:
+                print group['state'],group['members'],topgroups[group['state']]['members']
+                if group['members']>topgroups[group['state']]['members']:
+                    topgroups[group['state']]=group
 
-    if group['state'] not in topgroups.keys():
-        topgroups[group['state']]=group
-    else:
-        print group['state'],group['members'],topgroups[group['state']]['members']
-        if group['members']>topgroups[group['state']]['members']:
-            topgroups[group['state']]=group
 
 for key in topgroups.keys():
     topleaders[key]=topgroups[key]['organizer']
