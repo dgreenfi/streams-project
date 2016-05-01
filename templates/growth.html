@@ -9,9 +9,75 @@
                           <h3>Washington: 2014 Recreational Legalization</h3>
                           <p>
                             Washington passed Washington Initiative 502 in November 2012. Sales began for the most
-                            part in July 2014. We can show month by month sales as well for Washington. Maybe show
-                            the growth in the number of retailers by time.
+                            part in July 2014. 
                           </p>
+                          <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <div id="chart_div"></div>
+  <div id="chart_div2"></div>
+
+<p>Sales</p>
+
+
+<script>
+    google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+google.charts.setOnLoadCallback(drawBasic2);
+
+
+function drawBasic() {
+      var counts = {{ sales|tojson }}
+      var data = new google.visualization.DataTable();
+      data.addColumn('date', 'date');
+      data.addColumn('number', 'sales');
+
+      counts2 = [];
+      for(var i = 0; i < counts.length; i++){
+        counts2.push([new Date(counts[i][0], counts[i][1], 1), counts[i][2]]);
+      }
+      data.addRows(counts2);
+
+      var options = {
+        title: 'Washington Retail Sales by Month',
+        hAxis: {
+          title: 'date'
+        },
+        vAxis: {
+          title: 'sales'
+        }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+
+    function drawBasic2() {
+      var counts = {{ stores|tojson }}
+      var data = new google.visualization.DataTable();
+      data.addColumn('date', 'date');
+      data.addColumn('number', 'stores');
+
+      counts2 = [];
+      for(var i = 0; i < counts.length; i++){
+        counts2.push([new Date(counts[i][0], counts[i][1], 1), counts[i][2]]);
+      }
+      data.addRows(counts2);
+
+      var options = {
+        title: 'Washington Retail Stores by Month',
+        hAxis: {
+          title: 'date'
+        },
+        vAxis: {
+          title: 'stores'
+        }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+
+      chart.draw(data, options);
+    }
+</script>
                           <h3>Califonia: 1996 Medicinal Legalization</h3>
                           <p>
                             California passed Senate Bill 420 in 1996. They also voted on Proposition 19 in November
