@@ -17,7 +17,9 @@ def display():
     ids=f.readlines()
     ids=[i.replace('\n','') for i in ids]
     y,g= group_dates()
-    return render_template('coretemp.html',events=json.dumps(ids),years=y,groups=g,page='growth.html')
+    wash_sales = get_wash_sales()
+    wash_stores = get_wash_stores()
+    return render_template('coretemp.html',events=json.dumps(ids),years=y,groups=g,sales=wash_sales,stores=wash_stores,page='growth.html')
 
 @application.route('/legis')
 def legis():
@@ -97,6 +99,29 @@ def get_twitter_vol():
         chartdata.append([time[x],int(last10[x])])
 
     return chartdata
+
+def get_wash_sales():
+    sales = []
+    f = open('data/wash-sales.csv')
+    f.readline()
+    for l in f:
+        split = l.split(',')
+        year,month,sale = int(split[0]), int(split[1]), int(split[2])
+        sales.append([year, month, sale])
+
+    return sales
+
+def get_wash_stores():
+    stores = []
+    f = open('data/wash-stores.csv')
+    f.readline()
+    for l in f:
+        split = l.split(',')
+        year,month,store = int(split[0]), int(split[1]), int(split[2])
+        stores.append([year, month, store])
+
+    return stores
+
 def get_hashtags():
     conn_hashtag_counts=redis.Redis(db=6,port=REDIS_PORT)
     values = conn_hashtag_counts.get('hashtags')
