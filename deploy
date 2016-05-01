@@ -1,3 +1,8 @@
+#local or remote
+#update static files
+python grouplist.py
+python grouplist.py
+
 scp -i ccclass.pem -r /Users/davidgreenfield/PycharmProjects/streams-project/ ec2-user@ec2-52-91-228-46.compute-1.amazonaws.com:~/
 
 #from in \cred
