@@ -26,12 +26,12 @@ class StdOutListener(tweepy.StreamListener):
         if len(text)>50:
             if check>1 or True:
                 # Also, we convert UTF-8 to ASCII ignoring all bad characters sent by users
-                conn.setex(decoded['id'],json.dumps(decoded),1200)
+                conn.setex(decoded['id'],json.dumps(decoded),7200)
                 for url in decoded['entities']['urls']:
-                    conn_url.setex(decoded['id'],json.dumps(url['expanded_url']),1200)
+                    conn_url.setex(decoded['id'],json.dumps(url['expanded_url']),7200)
                 for tag in decoded['entities']['hashtags']:
                     if tag['text'].lower() not in ['cannabis','marijuana','weed']:
-                        conn_hashtag.setex(decoded['id'],json.dumps(tag['text'].lower()),1200)
+                        conn_hashtag.setex(decoded['id'],json.dumps(tag['text'].lower()),7200)
                         print "Archived"
                 return True
 
