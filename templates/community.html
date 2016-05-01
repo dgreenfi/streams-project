@@ -1,19 +1,34 @@
+
+
 <h2>Online Community Discussion - Meet the People organizing </h2>
+<div class="col-lg-6">
+
+</div>
+<div class="col-lg-6">
+
+</div>
 
 {% for state in states %}
     <div>
     <h3>{{state}}</h3>
     <h4><a href="{{  meetups[state]['link']}}">{{ meetups[state]['name'] }}</a></h4>
     <div>Members:{{ meetups[state]['members'] }}</div>
-    <div><a onclick='bio_change("{{ state|safe}}","{{  leaders[state]['organizer']['name']}}",
-            "{{  leaders[state]['organizer']['bio']}}",
-            "test")'>{{leaders[state]['organizer']['name']}}</a></div>
-    <div id="description"></div>
-    {% block description %}
-    {{ meetups[state]}}
-    {% endblock %}
+    <b>{{  leaders[state]['organizer']['name']}}</b> <br>
+        <b>Bio</b>:  {{  leaders[state]['organizer']['bio']}}<br>
+
+
+
+        {% if  meetups[state]['next_event'] is defined %}
+        Next Event: {{  meetups[state]['next_event']['name']}} <br>
+            Date:
+            <script>document.write( ToLocalDate ({{  meetups[state]['next_event']['time']}}))</script> <br>
+          <a href="{{  meetups[state]['link']}}">Link</a>
+    {% else %}
+    No Events Planned
+    {% endif %}
     </div>
-    <div class="article"><html>{{  meetups[state]['description']}}</html></div>
+
+
 
 
 
