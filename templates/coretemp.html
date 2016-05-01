@@ -12,6 +12,13 @@
         gps={{groups|tojson|safe}}
         years={{years|tojson|safe}}
     </script>
+    <script>
+function ToLocalDate (inDate) {
+    var date = new Date(inDate);
+    return date.toDateString();
+}
+</script>
+
    <div id="list"></div>
      <style>
             .map_container{
