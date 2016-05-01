@@ -12,7 +12,7 @@ python topleaders.py
 
 ### Deploy to AWS EC2 Instance
 #### Copy all files in folder (requires keyfile)
-scp -i {keyfile} -r /Users/davidgreenfield/PycharmProjects/streams-project/ ec2-user@ec2-52-91-228-46.compute-1.amazonaws.com:~/
+scp -i {keyfile} -r {yourpath}/streams-project/ ec2-user@ec2-52-91-228-46.compute-1.amazonaws.com:~/
 
 
 ### Activate Services on EC2 Server
