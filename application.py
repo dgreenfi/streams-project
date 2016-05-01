@@ -39,6 +39,15 @@ def projection():
     y,g= group_dates()
     return render_template('coretemp.html',events=json.dumps(ids),years=y,groups=g,page='projection.html')
 
+@application.route('/community_growth')
+def community_growth():
+    f=open('groupids.txt')
+    ids=f.readlines()
+    ids=[i.replace('\n','') for i in ids]
+    y,g= group_dates()
+    return render_template('coretemp.html',events=json.dumps(ids),years=y,groups=g,page='community_growth.html')
+
+
 @application.route('/community')
 def community():
 
