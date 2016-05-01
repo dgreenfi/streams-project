@@ -19,7 +19,9 @@ def display():
     y,g= group_dates()
     wash_sales = get_wash_sales()
     wash_stores = get_wash_stores()
-    return render_template('coretemp.html',events=json.dumps(ids),years=y,groups=g,sales=wash_sales,stores=wash_stores,page='growth.html')
+    col_sales = get_col_sales()
+    return render_template('coretemp.html',events=json.dumps(ids),years=y,groups=g,
+        sales=wash_sales,sales2=col_sales,stores=wash_stores,page='growth.html')
 
 @application.route('/legis')
 def legis():
@@ -107,6 +109,17 @@ def get_wash_sales():
     for l in f:
         split = l.split(',')
         year,month,sale = int(split[0]), int(split[1]), int(split[2])
+        sales.append([year, month, sale])
+
+    return sales
+
+def get_col_sales():
+    sales = []
+    f = open('data/coloradoretail.csv')
+    f.readline()
+    for l in f:
+        split = l.split(',')
+        month,year,sale = int(split[0]), int(split[1]), int(split[2]) / 0.1
         sales.append([year, month, sale])
 
     return sales

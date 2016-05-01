@@ -6,6 +6,8 @@
                               on New Year's Day in 2014. Marijuana tax sales were almost as high as $1B for 2015.
                               Let's include a graph of month by month sales to show the growth of the industry.
                             </p>
+                              <div id="chart_div3"></div>
+
                           <h3>Washington: 2014 Recreational Legalization</h3>
                           <p>
                             Washington passed Washington Initiative 502 in November 2012. Sales began for the most
@@ -22,6 +24,8 @@
     google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(drawBasic);
 google.charts.setOnLoadCallback(drawBasic2);
+google.charts.setOnLoadCallback(drawBasic3);
+
 
 
 function drawBasic() {
@@ -74,6 +78,33 @@ function drawBasic() {
       };
 
       var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+
+      chart.draw(data, options);
+    }
+
+    function drawBasic3() {
+      var counts = {{ sales2|tojson }}
+      var data = new google.visualization.DataTable();
+      data.addColumn('date', 'date');
+      data.addColumn('number', 'sales');
+
+      counts2 = [];
+      for(var i = 0; i < counts.length; i++){
+        counts2.push([new Date(counts[i][0], counts[i][1], 1), counts[i][2]]);
+      }
+      data.addRows(counts2);
+
+      var options = {
+        title: 'Colorado Retail Sales by Month',
+        hAxis: {
+          title: 'date'
+        },
+        vAxis: {
+          title: 'sales'
+        }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div3'));
 
       chart.draw(data, options);
     }
