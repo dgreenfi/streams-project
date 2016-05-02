@@ -23,6 +23,7 @@ i=0
 #page through responses to get max responses for each request
 for term in TERMS:
     while len(rj)>0:
+        #page through until we run out of results
         r=requests.get(BASE_URL+GROUPS_EP+'?'+'text='+term+'&'+req_params+'&radius=global&page=200&offset='+str(i))
         rj=r.json()
         print len(rj)
@@ -37,8 +38,11 @@ for term in TERMS:
     rj=['temp']
     i=0
 print len(egroups),len(groups)
+#sort by groups with most members
 egroups = sorted(egroups, key=lambda k: k['members'])
 egroups = [json.dumps(k) for k in egroups]
+
+#output to several files
 f= open('groupids.txt','w+')
 f2= open('fullgroupdata.txt','w+')
 f3= open('electionstategroups.txt','w+')
