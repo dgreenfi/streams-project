@@ -18,7 +18,9 @@
   of marijuana smokers in each state to get a projected monthly revenue increase for each state. 
 
 </p>
-<h2> Likely States </h2>
+<h1> Likely States </h2>
+<h2> Total Projection For Likely States </h3>
+<div id="chart_div8"></div>
 <h3> California </h3>
 <div id="chart_div"></div>
 <h3> Nevada </h3>
@@ -27,7 +29,9 @@
 <div id="chart_div3"></div>
 <h3> Arizona </h3>
 <div id="chart_div4"></div>
-<h2> Maybe States </h2>
+<h1> Maybe States </h2>
+<h2> Total Projection for Maybe States </h3>
+<div id="chart_div9"></div>
 <h3> Connecticut </h3>
 <div id="chart_div5"></div>
 <h3> Michigan </h3>
@@ -47,6 +51,8 @@ google.charts.setOnLoadCallback(drawBasic5);
 google.charts.setOnLoadCallback(drawBasic6);
 google.charts.setOnLoadCallback(drawBasic6);
 google.charts.setOnLoadCallback(drawBasic7);
+google.charts.setOnLoadCallback(drawBasic8);
+google.charts.setOnLoadCallback(drawBasic9);
 
 
 function drawBasic() {
@@ -205,6 +211,52 @@ function drawBasic7() {
       };
 
       var chart = new google.visualization.LineChart(document.getElementById('chart_div7'));
+
+      chart.draw(data, options);
+    }
+
+    function drawBasic8() {
+      var counts = {{ sales8|tojson }}
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'month');
+      data.addColumn('number', 'sales');
+
+      data.addRows(counts);
+
+      var options = {
+        title: 'Projected Sales by Month',
+        hAxis: {
+          title: 'month'
+        },
+        vAxis: {
+          title: 'sales'
+        }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div8'));
+
+      chart.draw(data, options);
+    }
+
+   function drawBasic9() {
+      var counts = {{ sales9|tojson }}
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'month');
+      data.addColumn('number', 'sales');
+
+      data.addRows(counts);
+
+      var options = {
+        title: 'Projected Sales by Month',
+        hAxis: {
+          title: 'month'
+        },
+        vAxis: {
+          title: 'sales'
+        }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div9'));
 
       chart.draw(data, options);
     }

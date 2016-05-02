@@ -32,9 +32,11 @@ def projection():
     conn_sales = get_state_projections('Connecticut')
     mich_sales = get_state_projections('Michigan')
     ri_sales = get_state_projections('Rhode Island')
+    total_likely = get_all_projections('data/total-likely.csv')
+    maybe_likely = get_all_projections('data/maybe-total.csv')
     return render_template('coretemp.html', sales=california_sales, sales2=nevada_sales, 
         sales3=vermont_sales, sales4=arizona_sales, sales5=conn_sales, sales6=mich_sales, 
-        sales7=ri_sales, page='projection.html')
+        sales7=ri_sales, sales8=total_likely, sales9=maybe_likely, page='projection.html')
 
 @application.route('/community_growth')
 def community_growth():
@@ -135,6 +137,15 @@ def get_state_projections(state):
         if split[0] != state:
             continue
         month, revenue = int(split[1]), float(split[2])
+        chartdata.append([month, revenue])
+    return chartdata
+
+def get_all_projections(f_name):
+    chartdata = []
+    f = open(f_name)
+    for l in f:
+        split = l.split(',')
+        month, revenue = int(split[0]), float(split[1])
         chartdata.append([month, revenue])
     return chartdata
 
