@@ -30,14 +30,14 @@ class StdOutListener(tweepy.StreamListener):
         if len(text)>30:
             if check>1:
                 #store id as record for rate counting
-                conn.setex(decoded['id'],json.dumps(decoded),9600)
+                conn.setex(decoded['id'],json.dumps(decoded),86400)
                 #store each url as record for mention counting
                 for url in decoded['entities']['urls']:
-                    conn_url.setex(decoded['id'],json.dumps(url['expanded_url']),9600)
+                    conn_url.setex(decoded['id'],json.dumps(url['expanded_url']),86400)
                 #store each hashtag as record for mention counting
                 for tag in decoded['entities']['hashtags']:
                     if tag['text'].lower() not in ['cannabis','marijuana','weed']:
-                        conn_hashtag.setex(decoded['id'],json.dumps(tag['text'].lower()),9600)
+                        conn_hashtag.setex(decoded['id'],json.dumps(tag['text'].lower()),86400)
                         print "Archived"
                 return True
 
