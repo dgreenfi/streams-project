@@ -34,7 +34,7 @@ Site will take 20 minutes from startup to accumulate rolling data for Twitter st
 
 
 ## After these commands are run you should be able to navigate to the public url root
-http://52.91.228.46:5000/
+http://54.84.155.178:5000/
 
 You should see an app that looks like below:
 ![alt text][screenshot]
