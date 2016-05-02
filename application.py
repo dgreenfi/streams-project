@@ -89,7 +89,7 @@ def get_titles():
 
 def get_twitter_vol():
     conn_twitter_num=redis.Redis(db=7,port=REDIS_PORT)
-    last10=conn_twitter_num.lrange('volume',0,50)
+    last10=conn_twitter_num.lrange('volume',0,360)
     last10.reverse()
     time=range(0, len(last10))
     chartdata=[]
