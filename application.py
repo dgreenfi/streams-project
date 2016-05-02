@@ -34,9 +34,43 @@ def projection():
     ri_sales = get_state_projections('Rhode Island')
     total_likely = get_all_projections('data/total-likely.csv')
     maybe_likely = get_all_projections('data/maybe-total.csv')
+    lyr_sales,lyr_sales_num=yearly_sales(total_likely)
+    myr_sales,myr_sales_num=yearly_sales(maybe_likely)
+    tsales=[to_millions(x+y) for x, y in zip(lyr_sales_num, myr_sales_num)]
+    print tsales
     return render_template('coretemp.html', sales=california_sales, sales2=nevada_sales, 
         sales3=vermont_sales, sales4=arizona_sales, sales5=conn_sales, sales6=mich_sales, 
-        sales7=ri_sales, sales8=total_likely, sales9=maybe_likely, page='projection.html')
+        sales7=ri_sales, sales8=total_likely, sales9=maybe_likely,lyr_sales=lyr_sales,myr_sales=myr_sales,tsales=tsales, page='projection.html')
+
+
+def to_millions(num):
+    n=int(num/1000000)
+    n=str(n)
+    n_new=''
+    for c in reversed(n):
+        if len(n_new)>0:
+            if len(n_new)%3==0:
+                n_new = ','+n_new
+        n_new=c+n_new
+
+    return n_new + " million"
+
+def yearly_sales(series):
+    #convert to annual sales figs
+    r_total=0
+    r_added=[]
+    yr_sales=[]
+    yr_sales_num=[]
+    for x in series:
+        r_added.append(x)
+        r_total+=x[1]
+        if len(r_added)==12:
+            yr_sales.append(to_millions(r_total))
+            yr_sales_num.append(r_total)
+            r_total=0
+            r_added=[]
+    return yr_sales,yr_sales_num
+
 
 @application.route('/community_growth')
 def community_growth():
