@@ -2,10 +2,8 @@ import tweepy
 import redis
 import json
 
-
+#redis configuration: 3 databases for components
 REDIS_PORT=9999
-
-
 conn=redis.Redis(db=0,port=REDIS_PORT)
 conn_url=redis.Redis(db=1,port=REDIS_PORT)
 conn_hashtag=redis.Redis(db=2,port=REDIS_PORT)
@@ -15,20 +13,28 @@ class StdOutListener(tweepy.StreamListener):
     def on_data(self, data):
         # Twitter returns data in JSON format - we need to decode it first
         decoded = json.loads(data)
+
+        #sometimes twitter doesn't send just tweets, it also sends rate limiting messages, this ignores those
         try:
             text=decoded['text'].encode('ascii', 'ignore')
         except KeyError:
             print decoded
             return
-        checkwords=['legal',' vote ',' law ','business','revenue','sales']
-        check=sum([(word in text.lower()) for word in checkwords])
 
+        #our list of secondary filters
+        checkwords=['legal',' vote ',' law ','business','revenue','sales']
+
+        #check to see if any are in the text
+        check=sum([(word in text.lower()) for word in checkwords])
+        #also filter by text length>30 to eliminate stub messages
         if len(text)>30:
             if check>1:
-                # Also, we convert UTF-8 to ASCII ignoring all bad characters sent by users
+                #store id as record for rate counting
                 conn.setex(decoded['id'],json.dumps(decoded),9600)
+                #store each url as record for mention counting
                 for url in decoded['entities']['urls']:
                     conn_url.setex(decoded['id'],json.dumps(url['expanded_url']),9600)
+                #store each hashtag as record for mention counting
                 for tag in decoded['entities']['hashtags']:
                     if tag['text'].lower() not in ['cannabis','marijuana','weed']:
                         conn_hashtag.setex(decoded['id'],json.dumps(tag['text'].lower()),9600)
@@ -47,13 +53,10 @@ def load_creds(credloc):
 if __name__ == '__main__':
     l = StdOutListener()
     creds=load_creds('../cred/keys.txt')
+    #set connection credentials
     auth = tweepy.OAuthHandler(creds['twitter_key'], creds['twitter_secret'])
     auth.set_access_token(creds['twitter_access_token'], creds['twitter_token_secret'])
 
-
-
-    # There are different kinds of streams: public stream, user stream, multi-user streams
-    # In this example follow #programming tag
-    # For more details refer to https://dev.twitter.com/docs/streaming-apis
     stream = tweepy.Stream(auth, l)
+    #set initial filters
     stream.filter(track=['cannabis','marijuana'])
