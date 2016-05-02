@@ -25,7 +25,16 @@ def legis():
 
 @application.route('/projection')
 def projection():
-    return render_template('coretemp.html',page='projection.html')
+    california_sales = get_state_projections('California')
+    nevada_sales = get_state_projections('Nevada')
+    vermont_sales = get_state_projections('Vermont')
+    arizona_sales = get_state_projections('Arizona')
+    conn_sales = get_state_projections('Connecticut')
+    mich_sales = get_state_projections('Michigan')
+    ri_sales = get_state_projections('Rhode Island')
+    return render_template('coretemp.html', sales=california_sales, sales2=nevada_sales, 
+        sales3=vermont_sales, sales4=arizona_sales, sales5=conn_sales, sales6=mich_sales, 
+        sales7=ri_sales, page='projection.html')
 
 @application.route('/community_growth')
 def community_growth():
@@ -117,6 +126,17 @@ def get_wash_stores():
         stores.append([year, month, store])
 
     return stores
+
+def get_state_projections(state):
+    chartdata = []
+    f = open('data/projectedrevenues.csv')
+    for l in f:
+        split = l.split(',')
+        if split[0] != state:
+            continue
+        month, revenue = int(split[1]), float(split[2])
+        chartdata.append([month, revenue])
+    return chartdata
 
 def get_hashtags():
     conn_hashtag_counts=redis.Redis(db=6,port=REDIS_PORT)
