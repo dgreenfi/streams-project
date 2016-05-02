@@ -1,9 +1,9 @@
 import requests
-secret='43b0cd8cf372c106a81df203ff38c265'
+secret='removed'
 
 
 url ='https://graph.facebook.com'
-auth_endpoint='/oauth/access_token?client_id=847060522056698&client_secret='+secret+'&grant_type=client_credentials'
+auth_endpoint='/oauth/access_token?client_id=removed&client_secret='+secret+'&grant_type=client_credentials'
 r=requests.get(url+auth_endpoint)
 access_token=r.text
 endpoint='/v2.4/8062627951/events'
