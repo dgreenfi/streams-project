@@ -45,11 +45,17 @@ You should see an app that looks like below:
 
 ## Overview of site content
 ### Background
+This page gives background on what we have seen in Colorado and Washington after their legalization of recreational cannabis.
 ### Legislation
+This page gives an overview of legislation that may go to vote in 2016
 ### Impact
+This page projects the financial impact of legislation expected to pass and potentially passing.
 ### Community Growth
+This page shows how online communities have grown as the legalization battle shifted
 ### Community Leaders
+This page highly some key leaders of online communities
 ### Community Discussion
+This page shows real time discussion updates including hashtags, top URLs and volume of conversation on Twitter
 
 
 
